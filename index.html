@@ -1,6 +1,7 @@
 <head>
     <title>Pylon Cam</title>
     <link rel="icon" href="/favicon.ico" sizes="any">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <style>
     body {
@@ -9,10 +10,15 @@
     .hero {
         width: 100%;
         height: 100vh;
-        background-image: url("./img/pylon-bg.png");
-        background-size: cover;
+        background-image: url("./img/pylon-bg-mobile.png");
+        background-size: 100% 100%;
         background-position: center;
         background-repeat: no-repeat;
+    }
+    @media (min-width: 800px) {
+        .hero {
+            background-image: url("./img/pylon-bg.png");
+        }
     }
 </style>
 <body>
