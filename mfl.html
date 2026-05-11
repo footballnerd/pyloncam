@@ -213,8 +213,8 @@
 
     .node.left { left: 5%; top: 50%; transform: translateY(-50%); }
     .node.one { right: 8%; top: 13%; }
-    .node.two { right: 1%; top: 43%; }
-    .node.three { right: 9%; bottom: 10%; }
+    .node.two { right: 1%; top: 42%; }
+    .node.three { right: 9%; bottom: 0%; }
 
     .link-line {
       position: absolute;
@@ -471,6 +471,73 @@
           <li><span>The Pylon Cam MFL Tools userscript is now ready for bulk message board posting.</span></li>
         </ol>
       </article>
+
+      <article class="card full-width">
+  <div class="card-header">
+    <p class="eyebrow">Troubleshooting</p>
+    <h2>If the userscript does not appear</h2>
+  </div>
+
+  <ol class="steps">
+    <li>
+      <span>
+        Open Chrome Extensions by typing <strong>chrome://extensions</strong> in the address bar.
+      </span>
+    </li>
+
+    <li>
+      <span>
+        In the top-right corner, make sure <strong>Developer mode</strong> is turned on.
+      </span>
+    </li>
+
+    <li>
+      <span>
+        Find <strong>Tampermonkey</strong>, click <strong>Details</strong>, and make sure the extension is turned on.
+      </span>
+    </li>
+
+    <li>
+      <span>
+        In Tampermonkey’s extension settings, make sure <strong>Allow user scripts</strong> is turned on if that option appears.
+      </span>
+    </li>
+
+    <li>
+      <span>
+        Make sure Tampermonkey has permission to run on the MFL website. If Chrome shows a site-access option, choose <strong>On all sites</strong> or allow it for the MFL site.
+      </span>
+    </li>
+
+    <li>
+      <span>
+        Click the Tampermonkey icon, open the <strong>Dashboard</strong>, and confirm that <strong>PylonCam MFL Tools</strong> is installed and enabled.
+      </span>
+    </li>
+
+    <li>
+      <span>
+        Refresh the MFL page after installing or changing any extension settings.
+      </span>
+    </li>
+
+    <li>
+      <span>
+        If it still does not work, temporarily disable browser security, ad-blocking, or web-threat extensions that may block userscripts from running.
+      </span>
+    </li>
+
+    <li>
+      <span>
+        If Chrome says the URL is restricted, try opening the actual MFL league page directly instead of running the script from a browser settings page, extension page, new tab page, or Chrome Web Store page.
+      </span>
+    </li>
+  </ol>
+
+  <p class="mini-note">
+    Most issues are caused by Chrome extension permissions, Tampermonkey being disabled, the userscript being turned off, or another browser extension blocking script behavior.
+  </p>
+</article>
 
     </section>
 
