@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pylon Cam Install Guide</title>
+  <style>
+    :root {
+      --bg: #05070d;
+      --panel: rgba(12, 17, 28, 0.84);
+      --panel-2: rgba(20, 26, 42, 0.72);
+      --line: rgba(255, 42, 55, 0.32);
+      --red: #ff1728;
+      --red-2: #b70616;
+      --blue: #268dff;
+      --white: #f6f7fb;
+      --muted: #a8afbf;
+      --soft: rgba(255, 255, 255, 0.08);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 78% 28%, rgba(44, 112, 255, 0.20), transparent 22%),
+        radial-gradient(circle at 22% 20%, rgba(255, 23, 40, 0.18), transparent 25%),
+        radial-gradient(circle at 55% 100%, rgba(255, 23, 40, 0.20), transparent 26%),
+        linear-gradient(135deg, #03050b 0%, #07101b 47%, #020308 100%);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      background:
+        linear-gradient(115deg, transparent 0 32%, rgba(255, 23, 40, 0.08) 32.3%, transparent 33.3%),
+        linear-gradient(115deg, transparent 0 38%, rgba(255, 23, 40, 0.06) 38.2%, transparent 39.1%),
+        repeating-linear-gradient(0deg, transparent 0 15px, rgba(255,255,255,0.018) 16px 17px);
+      opacity: 0.75;
+    }
+
+    body::after {
+      background-image: radial-gradient(rgba(255, 23, 40, 0.22) 1px, transparent 1.5px);
+      background-size: 18px 18px;
+      mask-image: radial-gradient(circle at 75% 17%, black 0 22%, transparent 38%);
+      opacity: 0.55;
+    }
+
+    a { color: inherit; }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1120px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 42px 0 52px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: center;
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(9, 13, 24, 0.92), rgba(9, 13, 24, 0.56));
+      box-shadow: var(--shadow), inset 0 0 40px rgba(255, 23, 40, 0.04);
+      overflow: hidden;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .mark {
+      width: 70px;
+      height: 70px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, var(--red), #76000c);
+      box-shadow: 0 0 28px rgba(255, 23, 40, 0.42);
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .mark::before {
+      content: "";
+      width: 36px;
+      height: 36px;
+      border: 6px solid #070b12;
+      border-radius: 50%;
+      background: radial-gradient(circle, #f7f8ff 0 12%, #556070 13% 26%, #111827 27% 100%);
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.14);
+    }
+
+    .brand-kicker {
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 66px);
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+    }
+
+    .accent { color: var(--red); }
+
+    .subtitle {
+      max-width: 680px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .subtitle strong { color: var(--white); }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 999px;
+      padding: 13px 18px;
+      background: rgba(255,255,255,0.07);
+      color: var(--white);
+      font-weight: 800;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 23, 40, 0.55);
+      background: rgba(255, 23, 40, 0.13);
+      box-shadow: 0 0 26px rgba(255, 23, 40, 0.18);
+    }
+
+    .btn.primary {
+      border-color: rgba(255, 23, 40, 0.72);
+      background: linear-gradient(135deg, var(--red), var(--red-2));
+      box-shadow: 0 0 28px rgba(255, 23, 40, 0.26);
+    }
+
+    .network {
+      position: relative;
+      min-height: 310px;
+      display: grid;
+      place-items: center;
+    }
+
+    .node {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 23, 40, 0.6);
+      background: rgba(8, 12, 22, 0.72);
+      box-shadow: 0 0 34px rgba(255, 23, 40, 0.2), inset 0 0 20px rgba(255, 23, 40, 0.08);
+      color: var(--red);
+      font-size: 34px;
+      font-weight: 900;
+    }
+
+    .node.center {
+      width: 144px;
+      height: 144px;
+      border-color: rgba(38, 141, 255, 0.85);
+      color: #fff;
+      background: radial-gradient(circle, rgba(38, 141, 255, 0.34), rgba(7, 11, 20, 0.88));
+      box-shadow: 0 0 44px rgba(38, 141, 255, 0.38), 0 0 38px rgba(255, 23, 40, 0.18);
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 56px;
+    }
+
+    .node.left { left: 5%; top: 50%; transform: translateY(-50%); }
+    .node.one { right: 8%; top: 13%; }
+    .node.two { right: 1%; top: 43%; }
+    .node.three { right: 9%; bottom: 10%; }
+
+    .link-line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 23, 40, 0.95), transparent);
+      box-shadow: 0 0 14px rgba(255, 23, 40, 0.75);
+      transform-origin: left center;
+    }
+
+    .l1 { width: 120px; left: 22%; top: 50%; }
+    .l2 { width: 120px; right: 20%; top: 30%; transform: rotate(-24deg); }
+    .l3 { width: 130px; right: 16%; top: 51%; }
+    .l4 { width: 126px; right: 20%; top: 68%; transform: rotate(25deg); }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 24px;
+    }
+
+    .card {
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 24px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 21px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(90deg, rgba(255, 23, 40, 0.16), rgba(255,255,255,0.02));
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .steps {
+      list-style: none;
+      margin: 0;
+      padding: 12px 24px 24px;
+      counter-reset: steps;
+    }
+
+    .steps li {
+      counter-increment: steps;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      padding: 17px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      color: #dfe3ee;
+      line-height: 1.46;
+    }
+
+    .steps li:last-child { border-bottom: 0; }
+
+    .steps li::before {
+      content: counter(steps);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      font-weight: 900;
+      background: rgba(255, 23, 40, 0.18);
+      border: 1px solid rgba(255, 23, 40, 0.46);
+      box-shadow: 0 0 16px rgba(255, 23, 40, 0.18);
+    }
+
+    .steps strong { color: var(--white); }
+
+    .inline-link {
+      color: #fff;
+      font-weight: 800;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 23, 40, 0.65);
+    }
+
+    .inline-link:hover { color: var(--red); }
+
+    .full-width {
+      margin-top: 22px;
+      grid-column: 1 / -1;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding: 22px 24px 24px;
+    }
+
+    .check {
+      min-height: 88px;
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 18px;
+      background: var(--panel-2);
+      padding: 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: #dbe1ed;
+      line-height: 1.35;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .check input {
+      width: 18px;
+      height: 18px;
+      margin: 1px 0 0;
+      accent-color: var(--red);
+      flex: 0 0 auto;
+    }
+
+    .mini-note {
+      margin: 0;
+      padding: 0 24px 24px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      z-index: 5;
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      padding: 11px 16px;
+      border-radius: 999px;
+      background: rgba(8, 12, 22, 0.94);
+      border: 1px solid rgba(255, 23, 40, 0.42);
+      box-shadow: 0 0 28px rgba(255, 23, 40, 0.22);
+      color: var(--white);
+      font-size: 14px;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .footer {
+      margin-top: 22px;
+      color: rgba(255,255,255,0.46);
+      font-size: 12px;
+      text-align: center;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .section-grid { grid-template-columns: 1fr; }
+      .network { min-height: 230px; }
+      .checklist { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .page { width: min(100% - 24px, 1120px); padding-top: 18px; }
+      .hero { padding: 24px; border-radius: 22px; }
+      .brand { align-items: flex-start; }
+      .mark { width: 58px; height: 58px; border-radius: 17px; }
+      .mark::before { width: 30px; height: 30px; border-width: 5px; }
+      .subtitle { font-size: 16px; }
+      .hero-actions { flex-direction: column; }
+      .btn { justify-content: center; width: 100%; }
+      .network { display: none; }
+      .steps { padding-left: 18px; padding-right: 18px; }
+      .steps li { grid-template-columns: 36px 1fr; gap: 11px; }
+      .checklist { grid-template-columns: 1fr; padding-left: 18px; padding-right: 18px; }
+      .card-header { padding-left: 18px; padding-right: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <div class="brand">
+          <div class="mark" aria-hidden="true"></div>
+          <div>
+            <p class="brand-kicker">Pylon Cam</p>
+            <h1 id="page-title"><span class="accent">Install</span> Guide</h1>
+          </div>
+        </div>
+        <p class="subtitle">
+          Set up the <strong>MFL bulk-message board poster</strong> by installing Tampermonkey in Chrome, then installing the Pylon Cam userscript.
+        </p>
+        <div class="hero-actions" aria-label="Primary links">
+          <a class="btn primary" href="https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank" rel="noopener">Install Tampermonkey</a>
+          <a class="btn" href="https://greasyfork.org/en/scripts/577580-pyloncam-mfl-tools" target="_blank" rel="noopener">Install Userscript</a>
+          <button class="btn" type="button" data-copy="https://greasyfork.org/en/scripts/577580-pyloncam-mfl-tools">Copy Script Link</button>
+        </div>
+      </div>
+
+      <div class="network" aria-hidden="true">
+        <div class="link-line l1"></div>
+        <div class="link-line l2"></div>
+        <div class="link-line l3"></div>
+        <div class="link-line l4"></div>
+        <div class="node left">⌁</div>
+        <div class="node center">☯</div>
+        <div class="node one">⚡</div>
+        <div class="node two">🔔</div>
+        <div class="node three">▰</div>
+      </div>
+    </section>
+
+    <section class="section-grid" aria-label="Installation steps">
+      <article class="card">
+        <div class="card-header">
+          <p class="eyebrow">Step 1</p>
+          <h2>Install Tampermonkey</h2>
+        </div>
+        <ol class="steps">
+          <li><span>Open <strong>Google Chrome</strong>.</span></li>
+          <li><span>Click <a class="inline-link" href="https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank" rel="noopener">Install Tampermonkey</a>.</span></li>
+          <li><span>On the Chrome Web Store page, click <strong>Add to Chrome</strong>.</span></li>
+          <li><span>When Chrome asks for confirmation, click <strong>Add extension</strong>.</span></li>
+          <li><span>Wait for Chrome to confirm that <strong>Tampermonkey has been added</strong>.</span></li>
+        </ol>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <p class="eyebrow">Step 2</p>
+          <h2>Install the userscript</h2>
+        </div>
+        <ol class="steps">
+          <li><span>Click <a class="inline-link" href="https://greasyfork.org/en/scripts/577580-pyloncam-mfl-tools" target="_blank" rel="noopener">Install Userscript</a>.</span></li>
+          <li><span>On Greasy Fork, click <strong>Install this script</strong>.</span></li>
+          <li><span>Tampermonkey will open a new install screen. Click <strong>Install</strong>.</span></li>
+          <li><span>Open or refresh your MFL page.</span></li>
+          <li><span>The Pylon Cam MFL Tools userscript is now ready for bulk message board posting.</span></li>
+        </ol>
+      </article>
+
+    </section>
+
+    <p class="footer">Pylon Cam · MFL Tools Install Guide</p>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Copied.</div>
+
+  <script>
+    (function () {
+      const toast = document.getElementById('toast');
+      let toastTimer;
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+      }
+
+      document.querySelectorAll('[data-copy]').forEach(button => {
+        button.addEventListener('click', async () => {
+          const value = button.getAttribute('data-copy');
+          try {
+            await navigator.clipboard.writeText(value);
+            showToast('Userscript link copied.');
+          } catch (error) {
+            showToast('Copy failed. Open the userscript link instead.');
+          }
+        });
+      });
+
+      document.querySelectorAll('[data-check]').forEach(input => {
+        const key = 'pyloncam-install-' + input.getAttribute('data-check');
+        input.checked = localStorage.getItem(key) === 'true';
+        input.addEventListener('change', () => {
+          localStorage.setItem(key, input.checked ? 'true' : 'false');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
